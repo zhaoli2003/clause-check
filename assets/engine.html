@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>条款自测</title>
+<!-- CC:FRAGMENT-START -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&family=Archivo:wght@600;800&display=swap">
+<style>
+/* 条款自测 clause-check 引擎 · 纸面 + 墨蓝 · 签名：依据条款的荧光笔高亮 */
+:root{
+  --bg:#F6F5F1; --card:#FFFFFF; --ink:#1A1D24; --mu:#5B5F69; --line:#DEDCD4; --accent:#1F3A8A; --on-accent:#FFFFFF;
+  --hl:#FFE27A; --hl-ink:#1A1D24; --ok:#13773A; --no:#B3261E; --warn:#8F5600; --info:#1F3A8A; --tint:#EEF1F8;
+  --f-zh:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --f-doc:"Noto Serif SC","Songti SC",STSong,serif;
+  --f-num:"Archivo","Noto Sans SC",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121418;--card:#1A1D23;--ink:#E9EAE6;--mu:#A3A7B0;--line:#2D3139;--accent:#A7BAFF;--on-accent:#10131A;
+  --hl:#5E4F10;--hl-ink:#FFF3C4;--ok:#4CC27A;--no:#FF7A6E;--warn:#E3AA52;--info:#A7BAFF;--tint:#1E2330;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121418;--card:#1A1D23;--ink:#E9EAE6;--mu:#A3A7B0;--line:#2D3139;--accent:#A7BAFF;--on-accent:#10131A;
+  --hl:#5E4F10;--hl-ink:#FFF3C4;--ok:#4CC27A;--no:#FF7A6E;--warn:#E3AA52;--info:#A7BAFF;--tint:#1E2330;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-zh);line-height:1.7;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--bg)}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
+.in{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* 头部 */
+.hd .in{padding-block:clamp(32px,6vw,72px) clamp(20px,3vw,32px)}
+.eyebrow{margin:0 0 14px;font-size:13px;letter-spacing:.12em;color:var(--mu);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"§";font-family:var(--f-doc);font-weight:900;font-size:18px;color:var(--accent);letter-spacing:0}
+.hd h1{margin:0;font-family:var(--f-doc);font-weight:900;font-size:clamp(34px,6vw,64px);line-height:1.15;white-space:pre-line;text-wrap:balance;max-width:15em}
+.sub{margin:16px 0 0;font-size:clamp(16px,1.8vw,19px);max-width:36em;text-wrap:pretty}
+.docs{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.docs li{background:var(--card);border:1px solid var(--line);padding:6px 12px;font-size:13px;line-height:1.5}
+.docs b{font-family:var(--f-doc);font-weight:700}
+.meta{margin:12px 0 0;font-size:13px;color:var(--mu)}
+
+/* 主体 */
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:clamp(20px,4vw,48px);align-items:start;padding-block:8px clamp(32px,5vw,64px)}
+.qs{display:grid;gap:12px;min-width:0}
+.q{background:var(--card);border:1px solid var(--line);padding:18px 18px 16px;scroll-margin-top:24px}
+.q.miss{box-shadow:inset 3px 0 0 var(--accent)}
+.qh{display:flex;gap:12px;align-items:baseline}
+.qn{font-family:var(--f-num);font-weight:800;font-size:13px;color:var(--mu);min-width:1.6em}
+.qh label,.qh .qt{font-weight:700;font-size:17px;line-height:1.45}
+.help{margin:6px 0 0 calc(1.6em + 12px);font-size:14px;color:var(--mu)}
+.ctl{margin:12px 0 0 calc(1.6em + 12px);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.opt{border:1.5px solid var(--line);background:var(--bg);padding:8px 16px;cursor:pointer;font-size:15px;text-align:left}
+.opt:hover{border-color:var(--ink)}
+.opt[aria-pressed="true"]{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.ctl input{border:1.5px solid var(--line);background:var(--bg);padding:8px 12px;font-size:16px;width:12em;max-width:100%;color:var(--ink)}
+.ctl input:focus{border-color:var(--ink);outline:none}
+.unit{font-size:15px;color:var(--mu)}
+.q .cites{margin:10px 0 0 calc(1.6em + 12px)}
+
+.rs{position:sticky;top:calc(16px + env(safe-area-inset-top,0px));display:grid;gap:12px;min-width:0;max-height:calc(100vh - 32px);overflow:auto;padding-bottom:4px}
+.rs-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.rs-h h2{margin:0;font-size:15px;font-weight:900;letter-spacing:.06em}
+.prog{font-family:var(--f-num);font-size:12px;color:var(--mu)}
+.r{background:var(--card);border:1px solid var(--line);padding:16px 18px;border-top:4px solid var(--line)}
+.r.t-ok{border-top-color:var(--ok)}.r.t-no{border-top-color:var(--no)}.r.t-warn{border-top-color:var(--warn)}.r.t-info,.r.t-val{border-top-color:var(--accent)}
+.rl{margin:0;font-size:14px;color:var(--mu);font-weight:500}
+.rv{margin:4px 0 0;font-weight:900;font-size:clamp(24px,3vw,32px);line-height:1.2;font-variant-numeric:tabular-nums}
+.rv small{font-size:.5em;font-weight:700;margin-left:4px}
+.t-ok .rv{color:var(--ok)}.t-no .rv{color:var(--no)}.t-warn .rv{color:var(--warn)}
+.rv.num{font-family:var(--f-num)}
+.rv.pend{font-size:17px;color:var(--mu);font-weight:700}
+.why{margin:8px 0 0;font-size:14.5px;line-height:1.7}
+.pend-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pend-list button{border:1px dashed var(--mu);background:transparent;padding:2px 10px;font-size:13px;cursor:pointer;color:var(--ink)}
+.cites{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px;font-size:12px;color:var(--mu)}
+.cite{border:1px solid var(--accent);color:var(--accent);background:transparent;padding:1px 9px;font-size:12.5px;cursor:pointer;font-family:var(--f-doc);font-weight:700;border-radius:999px}
+.cite[aria-expanded="true"]{background:var(--accent);color:var(--on-accent)}
+.clause{margin-top:10px;background:var(--tint);padding:12px 14px;font-size:14.5px}
+.clause .ch{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--mu);margin-bottom:6px}
+.clause .ct{font-family:var(--f-doc);line-height:1.85;margin:0}
+.clause mark,.lib mark{background:var(--hl);color:var(--hl-ink);padding:0 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.sum{background:var(--ink);color:var(--card);padding:16px 18px}
+.sum p{margin:0;font-size:15px;line-height:1.75}
+.sum .acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.sum button{border:1.5px solid var(--card);background:transparent;color:var(--card);padding:5px 14px;cursor:pointer;font-size:13px}
+.sum button.pri{background:var(--card);color:var(--ink)}
+.ex{background:var(--tint);border:1px solid var(--accent);padding:12px 16px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:14px}
+.ex b{font-weight:900}
+.ex button{border:1.5px solid var(--accent);background:var(--accent);color:var(--on-accent);padding:4px 12px;font-size:13px;cursor:pointer}
+.reset{justify-self:start;border:0;background:transparent;color:var(--mu);text-decoration:underline;cursor:pointer;font-size:13px;padding:0}
+
+/* 条款库 */
+.lib{padding-block:clamp(32px,5vw,64px);border-top:1px solid var(--line)}
+.lib .cols{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:clamp(24px,5vw,56px)}
+.lib h2{margin:0 0 14px;font-size:20px;font-weight:900}
+.cl{padding:14px 0;border-top:1px solid var(--line);scroll-margin-top:24px}
+.cl:first-of-type{border-top:0}
+.cl h3{margin:0 0 6px;font-size:14px;font-weight:700;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.cl h3 b{font-family:var(--f-doc);font-size:16px}
+.kind{font-size:11px;border:1px solid var(--mu);color:var(--mu);padding:0 6px;border-radius:999px;font-weight:500}
+.cl p{margin:0;font-family:var(--f-doc);font-size:15px;line-height:1.85}
+.cl.flash{animation:flash 1.6s ease-out}
+@keyframes flash{0%{background:var(--hl)}100%{background:transparent}}
+.used{margin-top:6px;font-size:12px;color:var(--mu)}
+.limits{margin:0;padding-left:1.2em;display:grid;gap:8px;font-size:14.5px}
+.disc{margin:18px 0 0;font-size:13px;color:var(--mu)}
+.credit{margin:18px 0 0;font-family:var(--f-num);font-size:12px;color:var(--mu)}
+
+/* 手机底部结论条 */
+.bar{display:none}
+.err{background:#B3261E;color:#fff;font-size:13px;white-space:pre-wrap;padding:14px max(16px,env(safe-area-inset-left,0px));font-family:ui-monospace,Menlo,monospace}
+
+@media (max-width:860px){
+  .grid{grid-template-columns:1fr}
+  .rs{position:static;max-height:none;overflow:visible}
+  .lib .cols{grid-template-columns:1fr}
+  .bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;gap:10px;align-items:center;justify-content:space-between;background:var(--ink);color:var(--card);
+    padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));font-size:14px}
+  .bar b{font-weight:900}
+  .bar button{border:1.5px solid var(--card);background:transparent;color:var(--card);padding:4px 12px;font-size:13px;cursor:pointer;white-space:nowrap}
+  body{padding-bottom:64px}
+  .help,.ctl,.q .cites{margin-left:0}
+}
+@media (prefers-reduced-motion: reduce){.cl.flash{animation:none}}
+</style>
+<!-- CC:FRAGMENT-BODY -->
+<div id="cc-root"></div>
+<script>
+/* === CLAUSE CONFIG START === */
+window.CLAUSE = {
+  "title": "示例自测",
+  "questions": [{"id": "a", "text": "你满 18 岁了吗？", "type": "yesno"}],
+  "results": [{"id": "r", "label": "结论", "type": "verdict", "cases": [{"when": "a == true", "tone": "ok", "text": "符合"}, {"when": "a == false", "tone": "no", "text": "不符合"}]}]
+};
+/* === CLAUSE CONFIG END === */
+</script>
+<script>
+/* 条款自测 clause-check engine v1 · MIT */
+(function(){
+  'use strict';
+  var C = window.CLAUSE || {}, root = document.getElementById('cc-root'), errors = [];
+  function el(t, c, x){ var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = String(x); return e; }
+  function add(p){ for (var i = 1; i < arguments.length; i++) if (arguments[i]) p.appendChild(arguments[i]); return p; }
+
+  /* ---------- 表达式：数字、字符串、比较、&& || !、四则运算、函数；未回答的值为 null ---------- */
+  function tokenize(s){
+    var t = [], i = 0;
+    while (i < s.length){
+      var c = s[i], j;
+      if (/\s/.test(c)) { i++; continue; }
+      if (/[0-9.]/.test(c)) { j = i; while (j < s.length && /[0-9.]/.test(s[j])) j++; t.push({k: 'n', v: parseFloat(s.slice(i, j))}); i = j; continue; }
+      if (c === '"' || c === "'") { j = i + 1; while (j < s.length && s[j] !== c) j++; if (j >= s.length) throw new Error('字符串没有结束引号'); t.push({k: 's', v: s.slice(i + 1, j)}); i = j + 1; continue; }
+      if (/[A-Za-z_一-鿿]/.test(c)) { j = i; while (j < s.length && /[A-Za-z0-9_一-鿿]/.test(s[j])) j++; t.push({k: 'id', v: s.slice(i, j)}); i = j; continue; }
+      var two = s.substr(i, 2);
+      if (['<=', '>=', '==', '!=', '&&', '||'].indexOf(two) >= 0) { t.push({k: 'op', v: two}); i += 2; continue; }
+      if ('+-*/()<>!,'.indexOf(c) >= 0) { t.push({k: 'op', v: c}); i++; continue; }
+      throw new Error('看不懂的字符「' + c + '」');
+    }
+    return t;
+  }
+  function parse(src){
+    var t = tokenize(String(src)), p = 0;
+    function isOp(v){ var x = t[p]; return !!x && x.k === 'op' && x.v === v; }
+    function expect(v){ if (!isOp(v)) throw new Error('缺少「' + v + '」'); p++; }
+    function primary(){
+      var x = t[p++]; if (!x) throw new Error('表达式不完整');
+      if (x.k === 'n' || x.k === 's') return {t: 'lit', v: x.v};
+      if (x.k === 'id'){
+        if (x.v === 'true') return {t: 'lit', v: true}; if (x.v === 'false') return {t: 'lit', v: false}; if (x.v === 'null') return {t: 'lit', v: null};
+        if (isOp('(')){ p++; var args = []; if (!isOp(')')){ args.push(or()); while (isOp(',')){ p++; args.push(or()); } } expect(')'); return {t: 'call', f: x.v, a: args}; }
+        return {t: 'id', v: x.v};
+      }
+      if (x.k === 'op' && x.v === '('){ var e = or(); expect(')'); return e; }
+      throw new Error('看不懂「' + x.v + '」');
+    }
+    function unary(){ if (isOp('-')){ p++; return {t: 'neg', e: unary()}; } if (isOp('!')){ p++; return {t: 'not', e: unary()}; } return primary(); }
+    function mul(){ var l = unary(); while (isOp('*') || isOp('/')){ var o = t[p++].v; l = {t: 'bin', o: o, l: l, r: unary()}; } return l; }
+    function addx(){ var l = mul(); while (isOp('+') || isOp('-')){ var o = t[p++].v; l = {t: 'bin', o: o, l: l, r: mul()}; } return l; }
+    function cmp(){ var l = addx(), x = t[p]; if (x && x.k === 'op' && ['<', '<=', '>', '>=', '==', '!='].indexOf(x.v) >= 0){ p++; return {t: 'bin', o: x.v, l: l, r: addx()}; } return l; }
+    function and(){ var l = cmp(); while (isOp('&&')){ p++; l = {t: 'and', l: l, r: cmp()}; } return l; }
+    function or(){ var l = and(); while (isOp('||')){ p++; l = {t: 'or', l: l, r: and()}; } return l; }
+    var e = or(); if (p < t.length) throw new Error('多余的内容「' + t[p].v + '」'); return e;
+  }
+  var cache = {};
+  function compile(src){ var k = String(src); if (!cache[k]) cache[k] = parse(k); return cache[k]; }
+  var DAY = 86400000;
+  function D(s){ if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return null; var a = s.split('-').map(Number); return Date.UTC(a[0], a[1] - 1, a[2]); }
+  var FN = {
+    floor: function(a){ return Math.floor(a + 1e-9); }, ceil: function(a){ return Math.ceil(a - 1e-9); }, abs: Math.abs,
+    round: function(a, d){ var m = Math.pow(10, d || 0); return Math.round(a * m + (a >= 0 ? 1e-9 : -1e-9)) / m; },
+    min: function(){ return Math.min.apply(null, arguments); }, max: function(){ return Math.max.apply(null, arguments); },
+    remain: function(s){ var t = D(s), y = new Date(t).getUTCFullYear(); return Math.round((Date.UTC(y, 11, 31) - t) / DAY) + 1; },
+    elapsed: function(s){ var t = D(s), y = new Date(t).getUTCFullYear(); return Math.round((t - Date.UTC(y, 0, 1)) / DAY) + 1; },
+    days: function(a, b){ return Math.round((D(b) - D(a)) / DAY) + 1; },
+    year: function(s){ return new Date(D(s)).getUTCFullYear(); }
+  };
+  var DATEFN = {remain: 1, elapsed: 1, year: 1, days: 2};
+  function ev(n, env){
+    switch (n.t){
+      case 'lit': return n.v;
+      case 'id': return env.get(n.v);
+      case 'neg': var v = ev(n.e, env); return v == null ? null : -v;
+      case 'not': var v2 = ev(n.e, env); return v2 == null ? null : !v2;
+      case 'and': var a = ev(n.l, env), b = ev(n.r, env); if (a === false || b === false) return false; if (a == null || b == null) return null; return !!(a && b);
+      case 'or': var c = ev(n.l, env), d = ev(n.r, env); if (c === true || d === true) return true; if (c == null || d == null) return null; return !!(c || d);
+      case 'call':
+        var f = FN[n.f]; if (!f) throw new Error('没有函数 ' + n.f + '()');
+        var args = n.a.map(function(x){ return ev(x, env); });
+        if (args.some(function(x){ return x == null; })) return null;
+        if (DATEFN[n.f] && args.slice(0, DATEFN[n.f]).some(function(x){ return D(x) == null; })) return null;
+        return f.apply(null, args);
+      case 'bin':
+        var l = ev(n.l, env), r = ev(n.r, env);
+        if (l == null || r == null) return null;
+        switch (n.o){
+          case '==': return l === r; case '!=': return l !== r;
+          case '+': return l + r; case '-': return l - r; case '*': return l * r; case '/': return r === 0 ? null : l / r;
+          case '<': return l < r; case '<=': return l <= r; case '>': return l > r; case '>=': return l >= r;
+        }
+    }
+    throw new Error('无法计算');
+  }
+
+  /* ---------- 配置 ---------- */
+  var docs = {}; (C.docs || []).forEach(function(d){ docs[d.id] = d; });
+  var CL = C.clauses || {};
+  var qs = C.questions || [], Q = {}; qs.forEach(function(q){ Q[q.id] = q; });
+  var vars = C.vars || [], results = C.results || [];
+  var used = {};
+  function noteUse(list, label){ (list || []).forEach(function(id){ if (!CL[id]) errors.push('引用了不存在的条款「' + id + '」（' + label + '）'); else (used[id] = used[id] || []).indexOf(label) < 0 && used[id].push(label); }); }
+  qs.forEach(function(q){ noteUse(q.cite, '问题：' + q.text); });
+  results.forEach(function(r){ (r.cases || []).concat(r.default ? [r.default] : []).forEach(function(c){ noteUse(c.cite, '结论：' + r.label); }); noteUse(r.cite, '结论：' + r.label); });
+
+  /* ---------- 求值 ---------- */
+  function evaluate(ans){
+    var vals = {}, vmiss = {}, visible = {}, cur = {};
+    var env = {get: function(id){
+      if (Object.prototype.hasOwnProperty.call(vals, id)){ if (vals[id] == null && vmiss[id]) Object.keys(vmiss[id]).forEach(function(k){ cur[k] = 1; }); return vals[id]; }
+      if (Q[id]){ if (!visible[id]) return null; var a = ans[id]; if (a === undefined || a === null || a === ''){ cur[id] = 1; return null; } return a; }
+      throw new Error('不认识「' + id + '」：它既不是问题，也不是在它之前算出的变量');
+    }};
+    qs.forEach(function(q){ visible[q.id] = !q.show || ev(compile(q.show), env) === true; });
+    function run(item){
+      cur = {};
+      var cases = item.cases ? item.cases.slice() : [{value: item.value, tone: item.tone, text: item.text, why: item.why, cite: item.cite}];
+      for (var i = 0; i < cases.length; i++){
+        var c = cases[i], w = c.when == null ? true : ev(compile(c.when), env);
+        if (w === true){
+          var v = c.value == null ? null : ev(compile(c.value), env);
+          if (c.value != null && v == null) return {state: 'pend', miss: Object.keys(cur)};
+          return {state: 'ok', v: v, c: c};
+        }
+        if (w == null) return {state: 'pend', miss: Object.keys(cur)};
+      }
+      if (item.default){ var dv = item.default.value == null ? null : ev(compile(item.default.value), env); if (item.default.value != null && dv == null) return {state: 'pend', miss: Object.keys(cur)}; return {state: 'ok', v: dv, c: item.default}; }
+      return {state: 'none', miss: Object.keys(cur)};
+    }
+    vars.forEach(function(x){ var r = run(x); vals[x.id] = r.state === 'ok' ? r.v : null; if (r.state !== 'ok') vmiss[x.id] = (r.miss || []).reduce(function(o, k){ o[k] = 1; return o; }, {}); });
+    var out = {};
+    results.forEach(function(x){
+      var show = !x.show || ev(compile(x.show), env) === true;
+      var r = show ? run(x) : {state: 'hidden'};
+      out[x.id] = r;
+      if (r.state === 'ok') vals[x.id] = x.type === 'verdict' ? (r.c.tone || null) : r.v; else vals[x.id] = null;
+    });
+    return {visible: visible, out: out, env: env, vals: vals};
+  }
+
+  /* ---------- 格式 ---------- */
+  function fmtv(v, f){
+    if (v === true) return '是'; if (v === false) return '否';
+    if (typeof v !== 'number') return String(v);
+    if (f === 'money') return '¥' + v.toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    if (f === 'int') return Math.round(v).toLocaleString('zh-CN');
+    if (f && /^\d$/.test(f)) return v.toLocaleString('zh-CN', {minimumFractionDigits: 0, maximumFractionDigits: +f});
+    return v.toLocaleString('zh-CN', {maximumFractionDigits: 2});
+  }
+  function interp(s, env){
+    return String(s == null ? '' : s).replace(/\{([^{}]+)\}/g, function(_, inner){
+      var parts = inner.split('|'), v;
+      try { v = ev(compile(parts[0]), env); } catch (e) { errors.push('文字模板里的「' + parts[0] + '」算不出来：' + e.message); return '?'; }
+      return v == null ? '—' : fmtv(v, parts[1]);
+    });
+  }
+  function hl(text, marks){
+    var frag = document.createDocumentFragment(), s = String(text || ''), list = (marks || []).filter(Boolean);
+    if (!list.length){ frag.appendChild(document.createTextNode(s)); return frag; }
+    var re = new RegExp('(' + list.map(function(m){ return m.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')', 'g');
+    s.split(re).forEach(function(part, i){ if (!part) return; if (i % 2) frag.appendChild(el('mark', null, part)); else frag.appendChild(document.createTextNode(part)); });
+    return frag;
+  }
+  function docName(c){ var d = docs[c.doc] || {}; return d.short || d.name || c.doc || ''; }
+  function citeLabel(id){ var c = CL[id] || {}; return docName(c) + ' ' + (c.ref || id); }
+
+  /* ---------- 测试用例：页面打开时自检 ---------- */
+  (C.tests || []).forEach(function(tc, i){
+    try {
+      var r = evaluate(tc.answers || {});
+      Object.keys(tc.expect || {}).forEach(function(k){
+        var want = tc.expect[k], got = Object.prototype.hasOwnProperty.call(r.vals, k) ? r.vals[k] : undefined;
+        var ok = typeof want === 'number' ? (typeof got === 'number' && Math.abs(got - want) < 0.005) : got === want;
+        if (!ok) errors.push('测试「' + (tc.name || ('#' + (i + 1))) + '」：' + k + ' 应为 ' + JSON.stringify(want) + '，实际是 ' + JSON.stringify(got));
+      });
+    } catch (e) { errors.push('测试「' + (tc.name || ('#' + (i + 1))) + '」出错：' + e.message); }
+  });
+
+  /* ---------- 页面 ---------- */
+  document.title = (C.title || '条款自测').replace(/\n/g, ' ');
+  var hd = el('header', 'hd'), hi = el('div', 'in');
+  add(hi, el('p', 'eyebrow', C.eyebrow || '条款自测 · clause-check'), el('h1', null, C.title || '条款自测'), C.subtitle ? el('p', 'sub', C.subtitle) : null);
+  if ((C.docs || []).length){
+    var dl = el('ul', 'docs');
+    C.docs.forEach(function(d){ var li = el('li'); add(li, el('b', null, '《' + d.name + '》')); li.appendChild(document.createTextNode(' ' + [d.issuer, d.effective].filter(Boolean).join(' · ') + ' ')); if (d.url){ var a = el('a', null, '全文'); a.href = d.url; a.target = '_blank'; a.rel = 'noopener'; li.appendChild(a); } dl.appendChild(li); });
+    hi.appendChild(dl);
+  }
+  hi.appendChild(el('p', 'meta', '依据 ' + Object.keys(CL).length + ' 条条款' + (C.checked ? ' · 核对日期 ' + C.checked : '') + ' · 每个结论都标出了依据'));
+  hd.appendChild(hi); root.appendChild(hd);
+
+  var main = el('main', 'in grid'), qsEl = el('section', 'qs'), rs = el('aside', 'rs');
+  qsEl.setAttribute('aria-label', '问题'); rs.setAttribute('aria-label', '结论');
+  add(main, qsEl, rs); root.appendChild(main);
+
+  var KEY = 'clause-check:' + (C.title || ''), ans = {}, exMode = false;
+  try { ans = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { ans = {}; }
+  if (C.example && C.example.answers && !Object.keys(ans).length){ ans = JSON.parse(JSON.stringify(C.example.answers)); exMode = true; }
+  var exBar = el('div', 'ex'), exBtn = el('button', null, '清空，填我自己的');
+  exBtn.type = 'button'; add(exBar, el('span', null, '现在显示的是示例：'), el('b', null, (C.example && C.example.name) || '示例'), exBtn);
+  qsEl.appendChild(exBar);
+  function leaveExample(){ if (!exMode) return; exMode = false; exBar.hidden = true; }
+  function save(){ leaveExample(); try { localStorage.setItem(KEY, JSON.stringify(ans)); } catch (e) {} }
+
+  function citesRow(list, host){
+    if (!list || !list.length) return null;
+    var row = el('div', 'cites'); row.appendChild(document.createTextNode('依据'));
+    var panel = el('div', 'clause'); panel.hidden = true;
+    list.forEach(function(id){
+      if (!CL[id]) return;
+      var b = el('button', 'cite', citeLabel(id)); b.type = 'button'; b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', function(){
+        var open = b.getAttribute('aria-expanded') === 'true';
+        row.querySelectorAll('.cite').forEach(function(x){ x.setAttribute('aria-expanded', 'false'); });
+        if (open){ panel.hidden = true; return; }
+        b.setAttribute('aria-expanded', 'true'); panel.innerHTML = '';
+        var c = CL[id], d = docs[c.doc] || {}, h = el('div', 'ch');
+        add(h, el('span', null, '《' + (d.name || c.doc || '') + '》' + (c.ref || '')), el('span', null, c.kind === 'quote' ? '原文摘录' : '条文要点'));
+        var p = el('p', 'ct'); p.appendChild(hl(c.text, c.hl));
+        var more = el('a', null, '在条款库里查看'); more.href = '#cl-' + id;
+        more.addEventListener('click', function(e){ e.preventDefault(); var t = document.getElementById('cl-' + id); if (t){ t.scrollIntoView({behavior: 'smooth', block: 'center'}); t.classList.remove('flash'); void t.offsetWidth; t.classList.add('flash'); } });
+        add(panel, h, p, more); panel.hidden = false;
+      });
+      row.appendChild(b);
+    });
+    host.appendChild(row); host.appendChild(panel);
+    return row;
+  }
+
+  exBtn.addEventListener('click', function(){ ans = {}; leaveExample(); try { localStorage.removeItem(KEY); } catch (e) {} qsEl.querySelectorAll('input').forEach(function(i){ i.value = ''; }); refresh(); goQ(qs[0] && qs[0].id); });
+  var qEls = {};
+  qs.forEach(function(q){
+    var card = el('div', 'q'); card.id = 'q-' + q.id;
+    var head = el('div', 'qh'), num = el('span', 'qn');
+    var lab = el(q.type === 'number' || q.type === 'date' ? 'label' : 'span', 'qt', q.text);
+    if (lab.tagName === 'LABEL') lab.htmlFor = 'in-' + q.id;
+    add(head, num, lab); card.appendChild(head);
+    if (q.help) card.appendChild(el('p', 'help', q.help));
+    var ctl = el('div', 'ctl');
+    if (q.type === 'yesno' || q.type === 'choice'){
+      var opts = q.type === 'yesno' ? [{v: true, label: q.yes || '是'}, {v: false, label: q.no || '否'}] : (q.options || []);
+      ctl.setAttribute('role', 'group'); ctl.setAttribute('aria-label', q.text);
+      opts.forEach(function(o){
+        var b = el('button', 'opt', o.label); b.type = 'button';
+        b.addEventListener('click', function(){ ans[q.id] = (ans[q.id] === o.v) ? null : o.v; save(); refresh(); });
+        b._v = o.v; ctl.appendChild(b);
+      });
+    } else {
+      var inp = el('input'); inp.id = 'in-' + q.id;
+      if (q.type === 'number'){ inp.type = 'number'; inp.inputMode = 'decimal'; if (q.min != null) inp.min = q.min; if (q.max != null) inp.max = q.max; inp.step = q.step || 'any'; if (q.placeholder) inp.placeholder = q.placeholder; }
+      else { inp.type = 'date'; }
+      if (ans[q.id] != null) inp.value = ans[q.id];
+      inp.addEventListener('input', function(){
+        if (q.type === 'number'){ var v = inp.value === '' ? null : Number(inp.value); ans[q.id] = (v === null || isNaN(v)) ? null : v; }
+        else ans[q.id] = inp.value || null;
+        save(); refresh();
+      });
+      ctl.appendChild(inp);
+      if (q.unit) ctl.appendChild(el('span', 'unit', q.unit));
+    }
+    card.appendChild(ctl);
+    citesRow(q.cite, card);
+    qsEl.appendChild(card); qEls[q.id] = {card: card, num: num, ctl: ctl};
+  });
+
+  var rsHead = el('div', 'rs-h'), prog = el('span', 'prog');
+  add(rsHead, el('h2', null, C.resultsTitle || '你的结论'), prog);
+  rs.appendChild(rsHead);
+  var rEls = {};
+  results.forEach(function(r){ var card = el('div', 'r'); card.hidden = true; rs.appendChild(card); rEls[r.id] = card; });
+  var sum = el('div', 'sum'), sumP = el('p'), acts = el('div', 'acts'), copyBtn = el('button', 'pri', '复制我的结论');
+  copyBtn.type = 'button'; add(acts, copyBtn); add(sum, sumP, acts); sum.hidden = true; rs.appendChild(sum);
+  var reset = el('button', 'reset', '清空重新填写'); reset.type = 'button'; rs.appendChild(reset);
+  reset.addEventListener('click', function(){ ans = {}; save(); qsEl.querySelectorAll('input').forEach(function(i){ i.value = ''; }); refresh(); window.scrollTo({top: 0, behavior: 'smooth'}); });
+
+  var bar = el('div', 'bar'), barT = el('span'), barB = el('button', null, '看依据');
+  barB.type = 'button'; barB.addEventListener('click', function(){ rs.scrollIntoView({behavior: 'smooth', block: 'start'}); });
+  add(bar, barT, barB); root.appendChild(bar);
+
+  function goQ(id){ var c = qEls[id] && qEls[id].card; if (c){ c.scrollIntoView({behavior: 'smooth', block: 'center'}); var f = c.querySelector('input,button'); if (f) setTimeout(function(){ f.focus({preventScroll: true}); }, 350); } }
+
+  var lastSummary = '';
+  function refresh(){
+    var R;
+    try { R = evaluate(ans); } catch (e) { errors.push(e.message); showErrors(); return; }
+    var n = 0, answered = 0, total = 0;
+    qs.forEach(function(q){
+      var vis = R.visible[q.id], e = qEls[q.id];
+      e.card.hidden = !vis; if (!vis) return;
+      total++; e.num.textContent = String(++n).padStart(2, '0');
+      var has = ans[q.id] !== undefined && ans[q.id] !== null && ans[q.id] !== '';
+      if (has) answered++;
+      e.card.classList.toggle('miss', !has);
+      e.ctl.querySelectorAll('.opt').forEach(function(b){ b.setAttribute('aria-pressed', String(ans[q.id] === b._v)); });
+    });
+    prog.textContent = '已回答 ' + answered + ' / ' + total;
+    var heads = [];
+    results.forEach(function(r){
+      var o = R.out[r.id], card = rEls[r.id];
+      if (o.state === 'hidden'){ card.hidden = true; return; }
+      card.hidden = false;
+      var keep = card.querySelector('.cite[aria-expanded="true"]'), keepTxt = keep && keep.textContent;
+      card.innerHTML = '';
+      card.className = 'r';
+      card.appendChild(el('p', 'rl', r.label));
+      if (o.state !== 'ok'){
+        var miss = (o.miss || []).filter(function(id){ return R.visible[id]; });
+        card.appendChild(el('p', 'rv pend', miss.length ? '还差 ' + miss.length + ' 个问题' : '暂时无法判断'));
+        if (miss.length){ var pl = el('div', 'pend-list'); miss.forEach(function(id){ var b = el('button', null, Q[id].short || Q[id].text); b.type = 'button'; b.addEventListener('click', function(){ goQ(id); }); pl.appendChild(b); }); card.appendChild(pl); }
+        return;
+      }
+      var c = o.c;
+      if (r.type === 'verdict'){
+        card.classList.add('t-' + (c.tone || 'info'));
+        card.appendChild(el('p', 'rv', interp(c.text, R.env)));
+        if (r.headline) heads.push(interp(c.text, R.env));
+      } else {
+        card.classList.add('t-val');
+        var rv = el('p', 'rv num'); rv.appendChild(document.createTextNode(fmtv(o.v, r.format))); if (r.unit) rv.appendChild(el('small', null, r.unit));
+        card.appendChild(rv);
+        if (r.headline) heads.push((r.short || r.label) + ' ' + fmtv(o.v, r.format) + (r.unit || ''));
+      }
+      if (c.why) card.appendChild(el('p', 'why', interp(c.why, R.env)));
+      var row = citesRow(c.cite || r.cite, card);
+      if (row && keepTxt){ row.querySelectorAll('.cite').forEach(function(b){ if (b.textContent === keepTxt) b.click(); }); }
+    });
+    var lines = (Array.isArray(C.summary) ? C.summary : (C.summary ? [{text: C.summary}] : [])).filter(function(s){ return !s.show || ev(compile(s.show), R.env) === true; });
+    var txt = lines.map(function(s){ return interp(s.text, R.env); }).join('');
+    var ready = lines.length && txt.indexOf('—') < 0;
+    sum.hidden = !ready; if (ready){ sumP.textContent = txt; lastSummary = txt; }
+    barT.innerHTML = ''; if (heads.length){ var b = el('b', null, heads.join(' · ')); barT.appendChild(b); } else barT.textContent = '已回答 ' + answered + ' / ' + total;
+  }
+  copyBtn.addEventListener('click', function(){
+    var cites = {}; Object.keys(rEls).forEach(function(k){ rEls[k].querySelectorAll('.cite').forEach(function(b){ cites[b.textContent] = 1; }); });
+    var text = lastSummary + (Object.keys(cites).length ? '\n依据：' + Object.keys(cites).join('、') : '') + (C.disclaimer ? '\n' + C.disclaimer : '');
+    function fallback(){ var r = document.createRange(); r.selectNodeContents(sumP); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); copyBtn.textContent = '已选中，按 Ctrl/⌘+C'; }
+    try { navigator.clipboard.writeText(text).then(function(){ copyBtn.textContent = '已复制'; setTimeout(function(){ copyBtn.textContent = '复制我的结论'; }, 1800); }, fallback); } catch (e) { fallback(); }
+  });
+
+  /* 条款库 */
+  var lib = el('section', 'lib'), li0 = el('div', 'in'), cols = el('div', 'cols'), left = el('div'), right = el('div');
+  left.appendChild(el('h2', null, '条款库'));
+  Object.keys(CL).forEach(function(id){
+    var c = CL[id], d = docs[c.doc] || {}, box = el('div', 'cl'); box.id = 'cl-' + id;
+    var h = el('h3'); add(h, el('b', null, '《' + (d.name || c.doc || '') + '》' + (c.ref || '')), el('span', 'kind', c.kind === 'quote' ? '原文摘录' : '条文要点'));
+    var p = el('p'); p.appendChild(hl(c.text, c.hl));
+    add(box, h, p);
+    if (used[id]) box.appendChild(el('p', 'used', '用于：' + used[id].map(function(s){ return s.replace(/^(问题|结论)：/, ''); }).join('；')));
+    left.appendChild(box);
+  });
+  right.appendChild(el('h2', null, C.limitsTitle || '这个自测没有覆盖'));
+  var ul = el('ul', 'limits'); (C.limits || []).forEach(function(t){ ul.appendChild(el('li', null, t)); }); right.appendChild(ul);
+  right.appendChild(el('p', 'disc', C.disclaimer || '结果只是按条款做的初步判断，不构成法律意见；以文件原文和主管部门、仲裁机构的认定为准。'));
+  if (C.credit !== false) right.appendChild(el('p', 'credit', C.credit || '用「条款自测 clause-check」制作 · 开源 Claude Skill'));
+  add(cols, left, right); li0.appendChild(cols); lib.appendChild(li0); root.appendChild(lib);
+
+  function showErrors(){
+    if (!errors.length) return;
+    var old = root.querySelector('.err'); if (old) old.parentNode.removeChild(old);
+    var box = el('div', 'err', '自测器配置有问题：\n· ' + errors.filter(function(x, i, a){ return a.indexOf(x) === i; }).join('\n· '));
+    root.insertBefore(box, root.firstChild); if (window.console) console.error(box.textContent);
+  }
+  exBar.hidden = !exMode;
+  refresh(); showErrors();
+})();
+</script>
+<!-- CC:FRAGMENT-END -->
+</body>
+</html>
